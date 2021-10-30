@@ -1,25 +1,18 @@
 {
-  "compilerOptions": {
-    "target": "es5", // ou es6
-    "lib": [ // São os tipos de bibliotecas que o typescript vai usar
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "typeRoots" : ["node_modules/@types", "src/types"], // São os diretórios onde os tipos são encontrados
-    "allowJs": true, // Permite que o typescript use javascript
-    "skipLibCheck": true, // Permite que o typescript ignore as bibliotecas
-    "esModuleInterop": true, // Permite que o typescript use o modulo do javascript
-    "allowSyntheticDefaultImports": true, // Permite que o typescript use a sintaxe default import
-    "strict": true, // O Strict mode é um modo de compilação que força o typescript a usar o strict mode
-    "forceConsistentCasingInFileNames": true, // Permite que o typescript use letras maiúsculas em nomes de arquivos
-    "noFallthroughCasesInSwitch": true, // Permite que o typescript não use o fallthrough em um switch
-    "module": "esnext", 
-    "moduleResolution": "node", // Permite que o typescript use o node.js
-    "resolveJsonModule": true, // Permite que o typescript use o modulo json
-    "isolatedModules": true, 
-    //"noEmit": true, // Não gera o arquivo .js
-    "jsx": "react-jsx", // Permite que o typescript use o jsx
+  "compilerOptions": {                      
+    "lib": ["dom","dom.iterable","esnext"],       // Especifica quais as bibliotecas que o TS vai usar
+    "jsx": "react-jsx",                           // Indica que o TS vai usar o JSX    
+    "moduleResolution": "node", 
+    "resolveJsonModule": true,                    // Adiciona a possibilidade de importar arquivos JSON
+	  "allowJs": true,                              // Permite que o TS compilador ou transpile para javascript
+    "noEmit": false,                              // Desativamos por que estamos usando o ts-loader
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                               // Indica que o TS vai usar o strict mode
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "baseUrl": "src",                             // Indica o diretório raiz do projeto
     "paths": {                                    // caminho para os arquivos com alias
       "@/*": ["*"],

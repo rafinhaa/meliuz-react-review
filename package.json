@@ -4,7 +4,8 @@
   "description": "Review ReactJS content",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack server --config webpack.dev.js --open"
+    "dev": "webpack server --config webpack.dev.js --open",
+    "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
