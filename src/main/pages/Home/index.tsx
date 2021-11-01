@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { animes } from '@/services';
-import { ISearch, IAnimeResults} from '@/types';
+import { ISearch, IAnime} from '@/types';
+import ContainerCards from '@/components/ContainerCards';
+import SearchLoader from '@/components/SearchLoader';
+import SearchForm from '@/components/SearchForm';
 
 const Home: React.FC = () => {
 
-    const [anime, setAnime] = useState<IAnimeResults>({} as IAnimeResults); // {} as IAnimeResults pq recebe muitas coisas
+    const [anime, setAnime] = useState<IAnime[]>([]);
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const { register, watch, formState: { errors }, handleSubmit, getValues } = useForm<ISearch>();
 
@@ -14,7 +17,7 @@ const Home: React.FC = () => {
         const { find } = data;
         animes.get(`search/anime?q=${find}`).then( 
             response => {
-                setAnime(response.data)
+                setAnime(response.data.results)
             }
         ).catch( 
             e => console.log(e)
@@ -27,45 +30,24 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <h1>Escolha seu anime</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input 
-                    type="text"
-                    placeholder="Nome do anime" 
-                    { ...register('find',{required: true}) } 
-                />
-                <input type="submit" value="Buscar"/>
-            </form>  
-            <span>{errors.find && 'Informe o anime!' }</span> {/* Exibe os erros do useForm */}
+            <SearchForm>
+                <h1>Escolha seu anime</h1>
+                <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                    <input 
+                        type="text"
+                        placeholder="Nome do anime" 
+                        { ...register('find',{required: true}) } 
+                    />
+                    <input type="submit" value="Buscar"/>
+                </form>  
+                <span>{errors.find && 'Informe o anime!' }</span> {/* Exibe os erros do useForm */}
+            </SearchForm>
             { 
-                isLoad ? (
-                <div>
-                <h1>Estamos pesquisando... aguarde instantes.</h1>
-                </div>
-            ) : (
-                <>
-                    { 
-                        anime?.results?.length <= 0 ? (
-                        <h3>Por enquando, você ainda não pesquisou nada...</h3>
-                        ) : (
-                        <>
-                            { 
-                                anime?.results?.map( 
-                                    item => (
-                                    <div key={item.mal_id}>
-                                        <span>{item.title}</span>
-                                        <img src={item.image_url} alt={item.title} />
-                                        <p>{item.synopsis}</p>
-                                        <p><b>Nota: </b> {item.score}</p>
-                                    </div>
-                                    ) 
-                                )
-                            }
-                        </>
-                        )
-                    }
-                </>
-            )}
+                isLoad ? 
+                <SearchLoader /> 
+                : 
+                <ContainerCards animes={anime} />
+            }
         </div>
     );
 }
